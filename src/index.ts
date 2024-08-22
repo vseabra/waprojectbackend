@@ -1,16 +1,27 @@
 import { Classifier } from "./application/classifier";
 import { TreeLoader } from "./application/treeLoader";
-import { printTree } from "./utils/printTree";
+import { ResultFormatter } from "./application/resultFormatter";
+import { printTree, measureExecutionTime } from "./utils";
 import * as path from "path";
 
 (async () => {
   const jsonPath = path.join(__dirname, "../dicts/animais.json");
+  const treeLoader = new TreeLoader(jsonPath);
+  const classifier = new Classifier("Eu vi gorilas e papagaios");
 
-  const tree = await new TreeLoader(jsonPath).loadTree();
+  const [tree, treeLoadingMetrics] = await measureExecutionTime(
+    treeLoader.loadTree.bind(treeLoader),
+  );
+  const [classificationResult, classificationMetrics] =
+    await measureExecutionTime(classifier.classify.bind(classifier), tree, 3);
 
-  const classifier = new Classifier("Eu vi gorilas e papagaios", false);
+  const metricsTable = ResultFormatter.toTable({
+    "Tempo de carregamento dos parâmetros(ms) ": treeLoadingMetrics,
+    "Tempo de verificação da frase(ms) ": classificationMetrics,
+  });
 
-	console.log(classifier.classify(tree, 3));
+	const resultList = ResultFormatter.toList(classificationResult);
 
-  // printTree(tree, "", false, 0);
+  console.log(metricsTable);
+	console.log(resultList);
 })();

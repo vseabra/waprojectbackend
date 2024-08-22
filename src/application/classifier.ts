@@ -1,8 +1,4 @@
-import { Tree, TreeNode } from "../domain";
-
-interface ClassificationResult {
-  [key: string]: number;
-}
+import { Tree, TreeNode, ClassificationResult } from "../domain";
 
 /**
  * Classifier
