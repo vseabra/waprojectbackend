@@ -21,16 +21,15 @@ export class TreeLoader {
     this.filePath = filePath;
   }
 
-	/* loadTree()
-	 *
-	 * loadTree carrega uma árvore na memoria.
-	 *
-	 */
+  /* loadTree
+   *
+   * loadTree carrega uma árvore na memoria.
+   *
+   */
   public async loadTree(): Promise<Tree> {
     const treeData = await this.readJsonFile();
     return this.buildTree(treeData);
   }
-
 
   private async readJsonFile(): Promise<JsonData> {
     const fullPath = path.resolve(this.filePath);
