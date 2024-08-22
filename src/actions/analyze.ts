@@ -25,6 +25,11 @@ export const analyzeAction = async (
     process.exit(1);
   }
 
+	if (depth < 1) {
+		console.error("Profundidade deve ser maior que 0.");
+    process.exit(1);
+	}
+
   const treeLoader = new TreeLoader(jsonPath);
   const classifier = new Classifier(sentence, caseSensitive);
 

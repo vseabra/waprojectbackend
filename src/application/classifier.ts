@@ -41,22 +41,22 @@ export class Classifier {
     targetDepth: number,
     resultName?: string,
   ): void {
-    const { children } = node;
+    const { children, depth, name } = node;
+
+    // quando atigirmos a profundiade desejada, setamos o valor do resultado para o nome do vértice
+    if (depth === targetDepth) {
+      resultName = node.name;
+    }
+
+    // para vertices com a profundade >= a desejada, fazemos a verificação de correspondência com a frase
+    if (depth >= targetDepth) {
+      const matchCount = this.countMatches(name);
+      this.incrementResult(resultName as string, matchCount);
+    }
 
     // percorre a árvore em profundidade
     for (let i = 0; i < children.length; i++) {
       const child = children[i];
-
-      // quando atigirmos a profundiade desejada, setamos o valor do resultado para o nome do vértice
-      if (child.depth === targetDepth) {
-        resultName = child.name;
-      }
-
-      // para vertices com a profundade >= a desejada, fazemos a verificação de correspondência com a frase
-      if (child.depth >= targetDepth) {
-        const matchCount = this.countMatches(child.name);
-        this.incrementResult(resultName as string, matchCount);
-      }
 
       this.classifyTree(child, targetDepth, resultName);
     }
