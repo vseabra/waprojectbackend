@@ -27,8 +27,18 @@ export class TreeLoader {
    *
    */
   public async loadTree(): Promise<Tree> {
-    const treeData = await this.readJsonFile();
-    return this.buildTree(treeData);
+    let treeData: JsonData;
+
+    try {
+      treeData = await this.readJsonFile();
+    } catch (err) {
+      console.error(`Erro ao ler arquivo JSON: ${err}`);
+      process.exit(1);
+    }
+
+    const tree = this.buildTree(treeData);
+
+    return tree;
   }
 
   private async readJsonFile(): Promise<JsonData> {

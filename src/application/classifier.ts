@@ -53,23 +53,27 @@ export class Classifier {
       }
 
       // para vertices com a profundade >= a desejada, fazemos a verificação de correspondência com a frase
-      if (child.depth >= targetDepth && this.phraseMatchesNode(child)) {
-        this.incrementResult(resultName as string);
+      if (child.depth >= targetDepth) {
+        const matchCount = this.countMatches(child.name);
+        this.incrementResult(resultName as string, matchCount);
       }
 
       this.classifyTree(child, targetDepth, resultName);
     }
   }
 
-  private phraseMatchesNode(node: TreeNode): boolean {
-    const nodeName = this.caseSensitive ? node.name : node.name.toLowerCase();
-    return this.sentence.includes(nodeName);
+  private countMatches(nodeName: string): number {
+    const nodeNameToCheck = this.caseSensitive
+      ? nodeName
+      : nodeName.toLowerCase();
+
+    return this.sentence.split(nodeNameToCheck).length - 1;
   }
 
-  private incrementResult(resultName: string): void {
+  private incrementResult(resultName: string, amount: number): void {
     if (!this.result[resultName]) {
       this.result[resultName] = 0;
     }
-    this.result[resultName] += 1;
+    this.result[resultName] += amount;
   }
 }

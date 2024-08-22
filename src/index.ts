@@ -1,27 +1,42 @@
-import { Classifier } from "./application/classifier";
-import { TreeLoader } from "./application/treeLoader";
-import { ResultFormatter } from "./application/resultFormatter";
-import { printTree, measureExecutionTime } from "./utils";
-import * as path from "path";
+import { Command } from "commander";
+import { printDictionaryAction, analyzeAction } from "./actions";
 
-(async () => {
-  const jsonPath = path.join(__dirname, "../dicts/animais.json");
-  const treeLoader = new TreeLoader(jsonPath);
-  const classifier = new Classifier("Eu vi gorilas e papagaios");
+const program = new Command();
 
-  const [tree, treeLoadingMetrics] = await measureExecutionTime(
-    treeLoader.loadTree.bind(treeLoader),
-  );
-  const [classificationResult, classificationMetrics] =
-    await measureExecutionTime(classifier.classify.bind(classifier), tree, 3);
+program
+  .name("classifier")
+  .description("Analisador de Hierarquia de Palavras")
+  .version("1.0.0");
 
-  const metricsTable = ResultFormatter.toTable({
-    "Tempo de carregamento dos parâmetros(ms) ": treeLoadingMetrics,
-    "Tempo de verificação da frase(ms) ": classificationMetrics,
-  });
+program
+  .command("analyze")
+  .description("Analisa uma frases")
+  .requiredOption(
+    "-d, --depth <number>",
+    "Profundidade da classíficação",
+    parseInt,
+  )
+  .option("-v, --verbose", "Exibe métricas de execução")
+  .option(
+    "-i, --case-sensitive",
+    "Considera letras maiúsculas e minúsculas na comparação das palavras",
+  )
+  .option(
+    "-dict, --dictionary <name>",
+    "Nome do arquivo de dicionário na pasta /dicts",
+    "animais.json",
+  )
+  .argument("<sentence>", "Frase a ser analisada)")
+  .action(analyzeAction);
 
-	const resultList = ResultFormatter.toList(classificationResult);
+program
+  .command("view")
+  .description("Visualiza o dicionário")
+  .option(
+    "-dict, --dictionary <name>",
+    "Nome do arquivo de dicionário na pasta /dicts",
+    "animais.json",
+  )
+  .action(printDictionaryAction);
 
-  console.log(metricsTable);
-	console.log(resultList);
-})();
+program.parse(process.argv);
