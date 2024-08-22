@@ -1,5 +1,11 @@
+#!/usr/bin/env ts-node
+
 import { Command } from "commander";
-import { printDictionaryAction, analyzeAction } from "./actions";
+import {
+  printDictionaryAction,
+  analyzeAction,
+  listDictionariesAction,
+} from "./actions";
 
 const program = new Command();
 
@@ -32,11 +38,15 @@ program
 program
   .command("view")
   .description("Visualiza o dicionário")
-  .option(
+  .requiredOption(
     "-dict, --dictionary <name>",
     "Nome do arquivo de dicionário na pasta /dicts",
-    "animais.json",
   )
   .action(printDictionaryAction);
+
+program
+  .command("list-dicts")
+  .description("List available dictionaries")
+  .action(listDictionariesAction);
 
 program.parse(process.argv);

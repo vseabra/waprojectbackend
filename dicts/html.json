@@ -1,0 +1,32 @@
+{
+	"html": {
+		"head": {
+			"meta": {
+				"charset": {
+					"utf8": {}
+				},
+				"description": {
+					"content": {}
+				}
+			},
+			"title": {}
+		},
+		"style": {
+			"css": {}
+		},
+		"body": {
+			"header": {
+				"h1": {}
+			},
+			"p": {},
+			"div": {
+				"div": {
+					"p": {}
+				}
+			},
+			"footer": {
+				"p": {}
+			}
+		}
+	}
+}
