@@ -2,7 +2,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { Classifier } from "../application/classifier";
 import { TreeLoader } from "../application/treeLoader";
-import { ResultFormatter } from "../application/resultFormatter";
+import { ResultFormatter } from "./resultFormatter";
 import { measureExecutionTime } from "../utils";
 
 interface AnalyzeOptions {

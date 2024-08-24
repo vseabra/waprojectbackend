@@ -32,7 +32,7 @@ program
     "Nome do arquivo de dicionário na pasta /dicts",
     "animais.json",
   )
-  .argument("<sentence>", "Frase a ser analisada)")
+  .argument("<sentence>", "Frase a ser analisada")
   .action(analyzeAction);
 
 program
@@ -46,7 +46,7 @@ program
 
 program
   .command("list-dicts")
-  .description("List available dictionaries")
+  .description("Lista dicionários disponíveis")
   .action(listDictionariesAction);
 
 program.parse(process.argv);

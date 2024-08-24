@@ -1,4 +1,4 @@
-import { ResultFormatter } from "../../src/application/resultFormatter";
+import { ResultFormatter } from "../../src/actions/resultFormatter";
 import { ClassificationResult } from "../../src/domain";
 
 describe("ResultFormatter", () => {
